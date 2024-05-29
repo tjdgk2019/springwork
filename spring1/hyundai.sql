@@ -17,9 +17,72 @@ tel varchar(100) not null, addr1 varchar(200), addr2 varchar(100), postcode varc
 
 select * from board;
 select * from member;
+select * from qna;
 
 drop table member;
+drop table board;
 
+create table free(no int auto_increment primary key, title varchar(200), content varchar(1000), hits int default 0, resdate timestamp default current_timestamp,
+id varchar(20), name varchar(100));
+
+alter table free add constraint fk_mem foreign key (id) references member(id);
+
+create table qna(no int auto_increment primary key,
+title varchar(200), content varchar(1000),
+lev int default 1, parno int default 0, 
+hits int default 0, resdate timestamp default current_timestamp,
+id varchar(20), name varchar(100));
+
+alter table qna add constraint fk_mem0 
+foreign key (id) references member(id);
+
+create table fileboard(no int auto_increment primary key,
+title varchar(200), content varchar(1000), url varchar(300),
+hits int default 0, resdate timestamp default current_timestamp,
+author varchar(20));
+
+create table product(pno int auto_increment primary key,
+cate varchar(20) not null, pname varchar(100) not null, 
+com varchar(1000), price int default 1000, 
+img varchar(300));
+
+alter table product add img2 varchar(300);
+alter table product add img3 varchar(300);
+
+create table inventory(ino int auto_increment primary key,
+pno int, iprice int default 1000, oprice int default 1000,
+amount int default 1, remark varchar(200),
+foreign key(pno) references product(pno)); 
+
+alter table inventory add resdate timestamp default current_timestamp;
+
+select * from sales;
+create table sales(sno int auto_increment primary key,
+pno int, amount int default 1, tot int, id varchar(20),
+paymethod varchar(20), paynum varchar(30), 
+addr varchar(300), tel varchar(100), 
+delcom varchar(50), deltel varchar(50), 
+delno varchar(50), delstatus varchar(20), 
+st varchar(20));
+
+alter table sales add constraint fk_mem1 
+foreign key (id) references member(id);
+
+alter table sales add constraint fk_pro1 
+foreign key (pno) references product(pno);
+
+alter table sales add resdate timestamp default current_timestamp;
+
+create table basket(bno int auto_increment primary key,
+id varchar(20), pno int, amount int, remark varchar(100));
+
+alter table basket add constraint fk_mem2 
+foreign key (id) references member(id);
+
+alter table basket add constraint fk_pro2 
+foreign key (pno) references product(pno);
+
+alter table basket add resdate timestamp default current_timestamp;
 
 -- 총 게시물 수
 select COUNT(*) from board;
@@ -41,8 +104,6 @@ update board set vcnt=vcnt+1 where bno=1;
 
 -- 공지사항 삭제
 delete from board where bno=1;
-
-
 
 -- 자료실 총 게시물 수
 select COUNT(*) from fileboard;
@@ -67,14 +128,12 @@ update fileboard set hits=hits+1 where no=1;
 
 -- 자료실 글 삭제
 delete from fileboard where no=1;
- 
 
 -- 자유게시판 목록 조회
 select f.no, f.title, f.content, f.hits, f.resdate, m.id, m.name 
 from free f, member m 
 where f.id=m.id order by f.resdate desc 
 limit 0, 5;
-
 
 -- 자유게시판 상세 보기
 select f.no, f.title, f.content, f.hits, f.resdate, m.id, m.name 
@@ -95,8 +154,6 @@ update free set hits=hits+1 where no=1;
 
 -- 자유게시판 글 삭제
 delete from free where no=1;
-
-
 
 -- 묻고 답하기 목록 조회
 select q.no, q.title, q.content, q.lev, q.parno, q.hits, q.resdate, m.id, m.name 
@@ -190,3 +247,38 @@ where bno=1;
 
 -- 장바구니 정보 제거
 delete from basket where bno=1;
+
+show databases;
+
+use morning;
+
+show tables;
+
+desc member;
+
+insert into member(id, pw, name, email, tel) values ('admin', '1234', '관리자', 'admin@hyundai.com', '010-1234-5678');
+
+select * from member where id='admin';
+
+delete from member where id='admin';
+
+commit;
+
+desc free;
+
+drop view ckboard;
+
+create view ckboard as (select f.no as no, f.title as title, f.content as content, f.hits as hits,
+f.resdate, m.id as id, m.name as name from free f, member m where f.id=m.id);
+
+select * from ckboard;
+
+commit;
+
+select * from fileboard;
+
+delete from fileboard where no=1;
+
+select * from product;
+
+desc product;

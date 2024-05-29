@@ -1,0 +1,24 @@
+package com.hyundai.biz;
+
+public class FreeService implements FreeBiz{
+
+	@Override
+	public int getTotalCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void hitCount(int no) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delFree(int no) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+}
