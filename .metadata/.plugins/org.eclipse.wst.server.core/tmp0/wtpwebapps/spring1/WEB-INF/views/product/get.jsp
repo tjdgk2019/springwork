@@ -37,9 +37,6 @@
 					<table id="tb1" class="table" width="1200">
 						<tbody>
 							<tr>
-								<td colspan="2"><img src="${path2}/resources/upload/${product.img }" alt="${product.pname }"/></td>
-							</tr>
-							<tr>
 								<th>상품 번호</th>
 								<td>${product.pno }</td>
 							</tr>
@@ -72,22 +69,30 @@
 								<td>${product.pname }</td>
 							</tr>
 							<tr>
-								<th>상품 설명</th>		
-								<td>${product.com }</td>
+								<th>상품 가격</th>
+								<td>${product.oprice }</td>
 							</tr>
 							<tr>
-								<td colspan="2"><img src="${path2}/resources/upload/${product.img2 }" alt="${product.pname } 상품 설명 이미지"/></td>
+								<td colspan="2" class="img_wrap"><img src="${path2}/resources/upload/${product.img }" alt="${product.pname }"/></td>
+							</tr>
+							<tr>
+								<th>상품 설명</th>		
+								<td class="pre_wrap">${product.com }</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="img_wrap"><img src="${path2}/resources/upload/${product.img2 }" alt="${product.pname } 상품 설명 이미지"/></td>
 							</tr>
 						</tbody>
 					</table>
 					<hr>
 					<div class="buttons">
-					  <c:if test="${cus.id.equals('admin') }">
-					  <a href="${path2 }/product/insert.do" class="button is-danger">상품 등록</a>
-					  <a href="${path2 }/product/update.do?pno=${product.pno }" class="button is-warning">상품 수정</a>
-					  <a href="${path2 }/product/delProduct.do?pno=${product.pno }" class="button is-danger is-dark">상품 삭제</a>
+					  <c:if test="${cus.id.equals('admin') }">					  
+						  <a href="${path2 }/admin/insertProduct.do" class="button is-danger">상품 등록</a>
+						  <a href="${path2}/admin/insertInventory.do" class="button is-light">상품 입고</a>
+						  <a href="${path2 }/admin/updateProduct.do?pno=${product.pno }" class="button is-warning">상품 수정</a>
+						  <a href="${path2 }/admin/delProduct.do?pno=${product.pno }&cate=${product.cate }" class="button is-danger is-dark">상품 삭제</a>
 					  </c:if>
-					  <a href="${path2 }/product/list.do" class="button is-primary">상품 목록</a>
+					  <a href="${path2 }/product/listAll.do" class="button is-primary">상품 목록</a>
 					</div>
 				</div>
     		</div>

@@ -5,14 +5,11 @@
 <%@ page import="java.util.*, java.lang.*" %>
 <%@ page import="java.text.*, java.net.InetAddress" %>
 <c:set var="path1" value="${pageContext.request.contextPath }" />
-<style>
-.logo { width:160px; height: auto; float:left; }
-</style>
 <!-- 헤더 내용 기술 -->
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="${path1 }" class="logo-wrap">
-                <img class="logo" src="${path1}/resources/images/logo.png" alt="LOGO">
+                <img src="${path1}/resources/images/logo.png" alt="LOGO" class="logo">
             </a>
 
             <button class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -25,9 +22,13 @@
         <div id="navbarBasicExample" class="navbar-menu" role="menu">
             <div class="navbar-start">
             	<div class="navbar-item has-dropdown is-hoverable">
-                	<a href="${path1 }/intro/intro1.do" class="navbar-link">Company</a>
+                	<a href="${path1 }/intro/intro1.do" class="navbar-link">
+                    	Company
+                	</a>
 					<div class="navbar-dropdown">
-                        <a href="${path1 }/intro/intro2.do" class="navbar-item" title="회사연혁">History</a>
+                        <a href="${path1 }/intro/intro2.do" class="navbar-item" title="회사연혁">
+                            History
+                        </a>
                         <a href="${path1 }/intro/intro3.do" class="navbar-item" title="경영이념 및 비전">
                             Vision
                         </a>
@@ -57,11 +58,19 @@
                         Product
                     </a>
                     <div class="navbar-dropdown">
-                        <a href="${path1 }/product/list.do?cate=note" class="navbar-item" title="수소 & 전기차">Hydrogen & Electric Vehicle</a>
-                        <a href="${path1 }/product/list.do?cate=fancy" class="navbar-item" title="팬시">Fancy</a>
-                        <a href="${path1 }/product/list.do?cate=pen" class="navbar-item" title="필기류">Pen</a>
+                        <a href="${path1 }/product/list.do?cate=note" class="navbar-item" title="노트">
+                            Note
+                        </a>
+                        <a href="${path1 }/product/list.do?cate=fancy" class="navbar-item" title="팬시">
+                            Fancy
+                        </a>
+                        <a href="${path1 }/product/list.do?cate=pen" class="navbar-item" title="필기류">
+                            Pen
+                        </a>
                         <hr class="navbar-divider">
-                        
+                        <a href="${path1 }/product/list.do?cate=binder" class="navbar-item" title="바인더">
+                            Binder
+                        </a>
                         <hr class="navbar-divider">
                         <a href="${path1 }/product/list.do?cate=other" class="navbar-item" title="기타 및 집기류">
                             Other
@@ -82,14 +91,9 @@
                         <a href="${path1 }/free/list.do" class="navbar-item">
                             Free
                         </a>
-                        <a href="${path1 }/file/filelist1.do" class="navbar-item">
-                            Fileboard
+                        <a href="${path1 }/fileboard/list.do?pageNo=1" class="navbar-item">
+                            Dataroom
                         </a>
-                        <c:if test="${sid.equals('admin')}">
-                        <a href="${path1 }/file/fileupload1.do" class="navbar-item">
-                            FileUpload
-                        </a>
-                        </c:if>
                         <hr class="navbar-divider">
                         <a href="${path1 }/service/online.do" class="navbar-item">
                             Contact
@@ -118,8 +122,11 @@
                         </a>
                     </c:if>
                     <c:if test="${sid.equals('admin')}">
-                        <a href="${path1}/member/list.do" class="button is-light">
+                        <a href="${path1}/admin/memberList.do" class="button is-light">
                             MemberList
+                        </a>
+                        <a href="${path1}/admin/insertInventory.do" class="button is-light">
+                            상품 입고
                         </a>
                     </c:if>
                     </div>

@@ -11,6 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>상품 목록</title>
 	<jsp:include page="../include/head.jsp"></jsp:include>
+	<link rel="stylesheet" href="${path2 }/resources/css/pagination.css">
+	<style>
+	.list, .tab_box { width:1200px; margin:20px auto; }
+	</style>
 </head>
 <body>
 <div class="full-wrap">
@@ -60,42 +64,98 @@
     		
     		<div class="page-wrap">
 	    		<div class="clr-fix">
-	    			<br>
-					<ul class="columns list" id="list1">
-						<c:if test="${not empty list }">
-							<c:forEach var="dto" items="${list }">
-							<li class="column">
-								<a href="${path2 }/product/detail.do?pno=${dto.pno }" class="item_wrap">
-									<div class="item_box">
-										<img src="${path2 }/resources/upload/${dto.img3 }" class="item_pic"/>
-										<h4 class="list_cate">${dto.pno }</h4>
-										<h3 class="list_title">${dto.pname }</h3>
-										<p class="list_com">${dto.com }</p>
-										<p class="list_price"><strong>${dto.price }</strong></p>
-									</div>
-								</a>
-							</li>
-							</c:forEach>
-						</c:if>
-						<c:if test="${empty list }">
-							<li>
-								<p><strong>상품이 존재하지 않습니다.</strong></p>
-							</li>
-						</c:if>
-					</ul>
-					<script>
-					$(document).ready(function(){
-						/* $("#list1").DataTable({
-							order:[[0,"desc"]]
-						}); */
-					});
-					</script>
+	    			<div class="control has-icons-left has-icons-right">
+    					<input type="search" id="search" class="input" placeholder="검색어 입력" style="display:inline-block;max-width:90%;">
+    					<button type="button" class="button" id="search-btn">검색</button>
+   					</div>
+					<div class="fixed-grid has-3-cols">
+						<ul class="grid" id="list1">
+							<c:if test="${not empty list }">
+								<c:forEach var="dto" items="${list }">
+								<li class="cell">
+									<a href="${path2 }/product/detail.do?pno=${dto.pno }" class="item_wrap">
+										<div class="item_box">
+											<img src="${path2 }/resources/upload/${dto.img3 }" class="item_pic"/>
+											<h4 class="list_cate">${dto.pno }</h4>
+											<h3 class="list_title">${dto.pname }</h3>
+											<p class="list_com">${dto.com }</p>
+											<p class="list_price"><strong class="red_txt">${dto.oprice }</strong></p>
+										</div>
+									</a>
+								</li>
+								</c:forEach>
+							</c:if>
+							<c:if test="${empty list }">
+								<li>
+									<p><strong>상품이 존재하지 않습니다.</strong></p>
+								</li>
+							</c:if>
+						</ul>
+						<div id="pagination-container"></div>
+					</div>
 					<hr>
 					<c:if test="${cus.id.equals('admin') }">
 					<div class="buttons">
-					  <a href="${path2 }/product/insert.do" class="button is-danger">글 등록</a>
+					  <a href="${path2 }/product/insert.do" class="button is-danger">상품 등록</a>
+	                  <a href="${path2}/product/insertInventory.do" class="button is-light">상품 입고</a>	                        
 					</div>
 					</c:if>
+					<script src="${path2 }/resources/js/jquery.pagination.js"></script>
+			        <script>
+			        $(document).ready(function() {
+			            var itemsPerPage = 5;
+			            var items = $('#product-list li');
+			            var numItems = items.length;
+			
+			            // 데이터 소스 설정
+			            var dataSource = function(done) {
+			                done(items.map(function() {
+			                    return $(this).text();
+			                }).get());
+			            };
+			
+			            // 페이지네이션 설정
+			            $('#pagination-container').pagination({
+			                dataSource: dataSource,
+			                pageSize: itemsPerPage,
+			                callback: function(data, pagination) {
+			                    var showFrom = (pagination.pageNumber - 1) * itemsPerPage;
+			                    var showTo = showFrom + itemsPerPage;
+			                    items.hide().slice(showFrom, showTo).show();
+			                }
+			            });
+			
+			            // 초기 표시 설정
+			            items.hide().slice(0, itemsPerPage).show();
+			
+			            // 검색 기능 구현
+			            $('#search-btn').on('click', function() {
+			                var searchTerm = $('#search').val().toLowerCase();
+			                var filteredItems = items.filter(function() {
+			                    var itemText = $(this).text().toLowerCase();
+			                    return itemText.indexOf(searchTerm) > -1;
+			                });
+			
+			                items.hide();
+			                filteredItems.show();
+			
+			                // 페이지네이션 업데이트
+			                $('#pagination-container').pagination({
+			                    dataSource: filteredItems.map(function() {
+			                        return $(this).text();
+			                    }).get(),
+			                    pageSize: itemsPerPage,
+			                    callback: function(data, pagination) {
+			                        var showFrom = (pagination.pageNumber - 1) * itemsPerPage;
+			                        var showTo = showFrom + itemsPerPage;
+			                        filteredItems.hide().slice(showFrom, showTo).show();
+			                    }
+			                });
+			
+			                $('#pagination-container').pagination('selectPage', 1);
+			            });
+			        });
+				    </script>
 				</div>
     		</div>
     	</section>

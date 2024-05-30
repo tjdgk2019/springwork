@@ -1,0 +1,60 @@
+package com.hyundai.biz;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hyundai.domain.Product;
+import com.hyundai.per.ProductMapper;
+
+@Service
+public class ProductService implements ProductBiz {
+
+	@Autowired
+	private ProductMapper productDAO;
+
+	@Override
+	public int getTotalCount() {
+		return productDAO.getTotalCount();
+	}
+
+	@Override
+	public List<Product> getProductList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> getProductCateList(String cate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product getProduct(int pno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void upProduct(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delProduct(int pno) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}
